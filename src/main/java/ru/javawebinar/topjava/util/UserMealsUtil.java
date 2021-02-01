@@ -53,7 +53,7 @@ public class UserMealsUtil {
                                                              LocalTime endTime, int caloriesPerDay) {
         Map<LocalDate, Integer> mapEatenCaloriesPerDay = meals.stream()
                 .collect(Collectors
-                        .toMap(localDate -> localDate.getDateTime().toLocalDate(),
+                        .toMap(userMeal -> userMeal.getDateTime().toLocalDate(),
                                 UserMeal::getCalories,
                                 Integer::sum));
         List<UserMealWithExcess> resultList = meals.stream()
