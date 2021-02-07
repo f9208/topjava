@@ -25,16 +25,19 @@
         <th></th>
     </tr>
     <c:forEach var="mealTo" items="${list}">
-        ${mealTo.isExcess() ? '<tr style="color: red">' : '<tr style="color: green">'}
-        <td><fmt:parseDate value="${mealTo.getDateTime()}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime"
-                           type="both"/>
-            <fmt:formatDate pattern="dd-MM-yyyy HH:mm" value="${parsedDateTime }"/></td>
-        <td> ${mealTo.getDescription()}</td>
-        <td> ${mealTo.getCalories()}</td>
-        <td><a>Update</a></td>
-        <td><a>Delete</a></td>
+        <tr style="color:
+        ${mealTo.excess ? 'red' : 'green'}">
+            <td><fmt:parseDate value="${mealTo.dateTime}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime"
+                               type="both"/>
+                <fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${parsedDateTime }"/></td>
+            <td> ${mealTo.description}</td>
+            <td> ${mealTo.calories}</td>
+            <td><a>Update</a></td>
+            <td><a>Delete</a></td>
         </tr>
     </c:forEach>
 </table>
+<br><br>
+<a href="index.html"> домой </a>
 </body>
 </html>
