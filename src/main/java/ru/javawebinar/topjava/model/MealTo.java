@@ -32,6 +32,10 @@ public class MealTo {
                 '}';
     }
 
+    public boolean getExcess() {
+        return excess;
+    }
+
     public LocalDateTime getDateTime() {
         return dateTime;
     }
@@ -44,9 +48,7 @@ public class MealTo {
         return calories;
     }
 
-    public boolean isExcess() {
-        return excess;
+    public long getId() {
+        return id;
     }
-
-    public long getId() { return id; }
 }

@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class MealsStorageServiceHardImp implements MealStorageService {
-    static Map<Long, Meal> meals = new ConcurrentHashMap<>();
-    static final int caloriesLimit = 2000;
+public class MealDAOHandImp implements MealDAO {
+    public static Map<Long, Meal> meals = new ConcurrentHashMap<>();
+    public static final int caloriesLimit = 2000;
 
     static {
         meals.put(CountGenerator.incrementCounter(), new Meal(CountGenerator.getCurrentValue(), LocalDateTime.of(2020, Month.JANUARY, 30, 10, 0), "Завтрак", 500));
@@ -41,11 +41,17 @@ public class MealsStorageServiceHardImp implements MealStorageService {
 
     @Override
     public boolean deleteById(long id) {
+        meals.remove(id);
         return false;
     }
 
     @Override
     public List<Meal> getAll() {
         return new ArrayList<>(meals.values());
+    }
+
+    @Override
+    public Meal getById(Long id) {
+        return meals.get(id);
     }
 }
