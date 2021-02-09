@@ -1,6 +1,7 @@
-package ru.javawebinar.topjava.util;
+package ru.javawebinar.topjava.Storage;
 
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.util.CountGenerator;
 
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -9,9 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class MealDAOHandImp implements MealDAO {
-    public static Map<Long, Meal> meals = new ConcurrentHashMap<>();
-    public static final int caloriesLimit = 2000;
+public class InMemoryMealDao implements MealDao {
+    private static Map<Long, Meal> meals = new ConcurrentHashMap<>();
 
     static {
         meals.put(CountGenerator.incrementCounter(), new Meal(CountGenerator.getCurrentValue(), LocalDateTime.of(2020, Month.JANUARY, 30, 10, 0), "Завтрак", 500));
@@ -24,25 +24,13 @@ public class MealDAOHandImp implements MealDAO {
     }
 
     @Override
-    public Map<Long, Meal> getAllAsMap() {
-        return meals;
+    public Meal add(Meal inputMeal) {
+        return meals.put(CountGenerator.getCurrentValue(), inputMeal);
     }
 
     @Override
-    public int getCaloriesLimit() {
-        return caloriesLimit;
-    }
-
-    @Override
-    public boolean add(Meal inputMeal) {
-        meals.put(CountGenerator.getCurrentValue(), inputMeal);
-        return false;
-    }
-
-    @Override
-    public boolean deleteById(long id) {
-        meals.remove(id);
-        return false;
+    public Meal deleteById(long id) {
+        return meals.remove(id);
     }
 
     @Override
@@ -51,7 +39,13 @@ public class MealDAOHandImp implements MealDAO {
     }
 
     @Override
-    public Meal getById(Long id) {
+    public Meal getById(long id) {
         return meals.get(id);
+    }
+
+    @Override
+    public Meal update(long id, Meal inputMeal) {
+        meals.remove(id);
+        return meals.put(id, inputMeal);
     }
 }

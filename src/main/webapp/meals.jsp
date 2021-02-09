@@ -10,7 +10,7 @@
 <body>
 <h1>Meals</h1>
 <br>
-<a href="addMeal">AddMeal</a>
+<a href="addMeal.jsp">AddMeal</a>
 <br>
 <br>
 <table border="1" cellpadding="5">
@@ -26,25 +26,16 @@
         <th></th>
     </tr>
     <c:forEach var="mealTo" items="${list}">
-        <form method="POST" action="meals" accept-charset="UTF-8">
-            <tr style="color: ${mealTo.getExcess() ? 'red' : 'green'}">
-                <input type="hidden" value="${mealTo.getDateTime()}" name="date">
-                <td><fmt:parseDate value="${mealTo.getDateTime()}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime"
-                                   type="both"/>
-                    <fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${parsedDateTime}"/></td>
-                <td><input type="hidden" value="${mealTo.getDescription()}" name="description">
-                        ${mealTo.getDescription()}</td>
-                <td><input type="hidden" value="${mealTo.getCalories()}" name="calories">
-                        ${mealTo.getCalories()}</td>
-                <td><input type="hidden" name="update_meal_id" value="${mealTo.getId()}"/>
-                    <input type="submit" value="обновить" name="update_meal">
-                </td>
-                <td><input type="hidden" name="delete_meal_id" value="${mealTo.getId()}"/>
-                    <input type="submit" value="delete" name="delete">
-                </td>
-            </tr>
-        </form>
-
+        <tr style="color: ${mealTo.excess ? 'red' : 'green'}">
+            <td><fmt:parseDate value="${mealTo.dateTime}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime"
+                               type="both"/>
+                <fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${parsedDateTime}"/></td>
+            <td>${mealTo.description}</td>
+            <td>${mealTo.calories}</td>
+            <td><a href="meals?action=edit&mealId=<c:out value="${mealTo.id}"/>">Update</a></td>
+            <td><a href="meals?action=delete&mealId=<c:out value="${mealTo.id}"/>">Delete</a></td>
+            </td>
+        </tr>
     </c:forEach>
 </table>
 
