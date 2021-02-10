@@ -10,7 +10,7 @@
 <body>
 <h1>Meals</h1>
 <br>
-<a href="addMeal.jsp">AddMeal</a>
+<a href="meals?action=addMeal">AddMeal</a>
 <br>
 <br>
 <table border="1" cellpadding="5">

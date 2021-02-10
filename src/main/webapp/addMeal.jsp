@@ -6,7 +6,7 @@
     <title>AddMeal</title>
 </head>
 <body>
-<h1 style="font-size: 25px ">Add your meal here</h1>
+<h1>${action} your meal here</h1>
 <br>
 <form method="POST" action="meals">
     <label for="date"> DateTime</label>

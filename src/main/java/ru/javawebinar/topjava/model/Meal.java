@@ -43,4 +43,5 @@ public class Meal {
     public long getId() {
         return id;
     }
+
 }
