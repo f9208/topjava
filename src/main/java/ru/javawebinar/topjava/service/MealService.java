@@ -5,7 +5,7 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.to.MealTo;
 import ru.javawebinar.topjava.util.MealsUtil;
-import ru.javawebinar.topjava.util.exception.NotFoundException;
+import ru.javawebinar.topjava.util.ValidationUtil;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,27 +21,30 @@ public class MealService {
         this.repository = repository;
     }
 
-    public Meal create(Meal meal) {
-        if (repository.save(meal) == null) throw new NotFoundException("meat not found or you are not owner one");
-        else return meal;
+    public Meal create(Meal meal, int userId) {
+        return ValidationUtil.checkNotFoundWithId(repository.save(meal, userId), meal.getId());
     }
 
-    public void delete(int mealId) {
-        checkNotFoundWithId(repository.delete(mealId), mealId);
+    public void delete(int mealId, int userId) {
+        checkNotFoundWithId(repository.delete(mealId, userId), mealId);
     }
 
-    public Meal get(int mealId) {
-        return checkNotFoundWithId(repository.get(mealId), mealId);
+    public Meal get(int mealId, int userId) {
+        return checkNotFoundWithId(repository.get(mealId, userId), mealId);
     }
 
-    public List<Meal> getAll() {
-        return repository.getAll();
+    public List<Meal> getAll(int userId) {
+        return repository.getAll(userId);
     }
 
-    public List<MealTo> getAllWithinRange(LocalDateTime beginning, LocalDateTime end) {
+    public List<MealTo> getAllWithinRange(LocalDateTime beginning, LocalDateTime end, int userId) {
         return MealsUtil.getFilteredTos(repository.getAllWithinDateRange(beginning.toLocalDate(),
-                end.toLocalDate()), MealsUtil.DEFAULT_CALORIES_PER_DAY,
+                end.toLocalDate(), userId), MealsUtil.DEFAULT_CALORIES_PER_DAY,
                 beginning.toLocalTime(),
                 end.toLocalTime());
+    }
+
+    public void update(Meal meal, int mealId, int userId) {
+        checkNotFoundWithId(repository.save(meal, userId), mealId);
     }
 }

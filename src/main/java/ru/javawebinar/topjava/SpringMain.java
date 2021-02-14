@@ -33,9 +33,9 @@ public class SpringMain {
             System.out.println(mrc.getAllBetweenTime(null, null, LocalTime.of(10, 00), LocalTime.of(21, 00)) + SEPARATOR);
             System.out.println(mrc.getAllBetweenTime(null, LocalDate.of(2012, Month.FEBRUARY, 20), null, null) + SEPARATOR);
 
-            mrc.save(new Meal(2, LocalDateTime.of(2030, Month.APRIL, 2, 10, 00), "branch", 234));
+            mrc.update(new Meal(2, LocalDateTime.of(2030, Month.APRIL, 2, 10, 00), "branch", 234), 2);
             System.out.println(mrc.getAll() + SEPARATOR);
-            mrc.save(new Meal(LocalDateTime.of(2030, Month.APRIL, 2, 10, 00), "branch", 3000));
+            mrc.create(new Meal(LocalDateTime.of(2030, Month.APRIL, 2, 10, 00), "branch", 3000));
             System.out.println(mrc.getAllBetweenTime(LocalDate.of(2030, Month.APRIL, 2), null, null, null) + SEPARATOR);
             mrc.update(new Meal(8, LocalDateTime.of(2130, Month.APRIL, 2, 10, 00), "light_branch", 500), 8);
             System.out.println(mrc.getAllBetweenTime(LocalDate.of(2030, Month.APRIL, 2), null, null, null) + SEPARATOR);
@@ -55,7 +55,7 @@ public class SpringMain {
             prc.create(new User(null, "basia", "3aPupkin@gmail.com", "password", Role.USER));
             prc.create(new User(null, "basia", "2aPupkin@gmail.com", "password", Role.USER));
             prc.create(new User(null, "aasia", "aPupkin@gmail.com", "password", Role.USER));
-            System.out.println(prc.getAll());
+
         }
     }
 }
