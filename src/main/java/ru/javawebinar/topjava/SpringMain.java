@@ -25,6 +25,9 @@ public class SpringMain {
             AdminRestController adminUserController = appCtx.getBean(AdminRestController.class);
             adminUserController.create(new User(null, "userName", "email@mail.ru", "password", Role.ADMIN));
 
+            ProfileRestController prc = appCtx.getBean(ProfileRestController.class);
+            prc.create(new User(null, "vasya", "vasiaPupkin@gmail.com", "password", Role.USER));
+
             MealRestController mrc = appCtx.getBean(MealRestController.class);
             System.out.println(mrc.getAllBetweenTime(null, null, null, null) + SEPARATOR);
             System.out.println(mrc.getAllBetweenTime(LocalDate.of(2020, Month.JANUARY, 31), null, null, null) + SEPARATOR);
@@ -49,13 +52,12 @@ public class SpringMain {
 
             System.out.println(SEPARATOR);
 
-            ProfileRestController prc = appCtx.getBean(ProfileRestController.class);
-            prc.create(new User(null, "vasya", "vasiaPupkin@gmail.com", "password", Role.USER));
+
             prc.create(new User(null, "basia", "1asiaPupkin@gmail.com", "password", Role.USER));
             prc.create(new User(null, "basia", "3aPupkin@gmail.com", "password", Role.USER));
             prc.create(new User(null, "basia", "2aPupkin@gmail.com", "password", Role.USER));
             prc.create(new User(null, "aasia", "aPupkin@gmail.com", "password", Role.USER));
-
+            System.out.println(prc.getAll());
         }
     }
 }
