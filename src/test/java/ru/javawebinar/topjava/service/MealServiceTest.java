@@ -16,8 +16,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.Assert.assertThrows;
-import static ru.javawebinar.topjava.MealTestData.*;
-import static ru.javawebinar.topjava.UserTestData.USER_ID;
+import static ru.javawebinar.topjava.testUtils.MealTestData.*;
+import static ru.javawebinar.topjava.testUtils.UserTestData.USER_ID;
 
 @ContextConfiguration({
         "classpath:spring/spring-app.xml",
@@ -47,10 +47,8 @@ public class MealServiceTest {
 
     @Test
     public void getBetweenInclusive() {
-        List<Meal> meals = mealService.getBetweenInclusive(
-                LocalDate.of(2020, 02, 03),
-                LocalDate.of(2020, 02, 04),
-                USER_ID);
+        List<Meal> meals = mealService.getBetweenInclusive(LocalDate.of(2020, 02, 03),
+                LocalDate.of(2020, 02, 04), USER_ID);
         assertMatch(meals, DINNER, FIVEOCLOCK, LUNCH, BREAKFAST, LIGHT_LUNCH, MORNING_COFFEE);
         meals = mealService.getBetweenInclusive(null, null, USER_ID);
         assertMatch(meals, DINNER, FIVEOCLOCK, LUNCH, BREAKFAST, LIGHT_LUNCH, MORNING_COFFEE, NEW_YEAR_BRUNCH);

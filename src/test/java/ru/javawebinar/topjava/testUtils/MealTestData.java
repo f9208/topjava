@@ -1,4 +1,4 @@
-package ru.javawebinar.topjava;
+package ru.javawebinar.topjava.testUtils;
 
 import ru.javawebinar.topjava.model.Meal;
 
@@ -42,15 +42,18 @@ public class MealTestData {
 
 
     public static Meal getNew() {
-        return new Meal(null, LocalDateTime.of(2010,07,07,12,00,00), "newMeal", 2000);
+        return new Meal(null, LocalDateTime.of(2010,7,7,12,0,0), "newMeal", 2000);
     }
 
     public static void assertMatch(Meal actual, Meal expected) {
         assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }
+    public static void assertMatchIgnoreId(Meal actual, Meal expected) {
+        assertThat(actual).usingRecursiveComparison().ignoringFields("id").isEqualTo(expected);
+    }
 
     public static void assertMatch(Iterable<Meal> actual, Iterable<Meal> expected) {
-        assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
+        assertThat(actual).usingRecursiveComparison().ignoringFields("id").isEqualTo(expected);
     }
 
     public static void assertMatch(Iterable<Meal> actual, Meal... expected) {
