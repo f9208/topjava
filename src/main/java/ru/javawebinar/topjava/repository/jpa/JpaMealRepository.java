@@ -25,12 +25,16 @@ public class JpaMealRepository implements MealRepository {
         if (meal.isNew()) {
             meal.setUser(refUser);
             em.persist(meal);
+            return meal;
         } else {
-            Meal transitMeal = em.find(Meal.class, meal.getId());
-            meal.setUser(transitMeal.getUser());
-            return transitMeal.getUser().getId() == userId ? em.merge(meal) : null;
+            Meal transitMeal = get(meal.getId(), userId);
+            if (transitMeal == null) {
+                return null;
+            } else {
+                meal.setUser(transitMeal.getUser());
+            }
+            return em.merge(meal);
         }
-        return meal;
     }
 
     @Transactional
