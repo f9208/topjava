@@ -12,19 +12,18 @@ import java.util.List;
 public class DataJpaMealRepository implements MealRepository {
 
     private final CrudMealRepository crudMealRepository;
-    private final CrudUserRepository crudUserRepository;
 
     public DataJpaMealRepository(CrudMealRepository crudMealRepository,
                                  CrudUserRepository crudUserRepository) {
         this.crudMealRepository = crudMealRepository;
-        this.crudUserRepository = crudUserRepository;
     }
 
     @Override
     public Meal save(Meal meal, int userId) {
-        meal.setUser(crudUserRepository.getOne(userId));
-        if (meal.isNew()) {
-        } else if (crudMealRepository.findByIdAndUserId(meal.getId(), userId) == null) {
+        User user = new User();
+        user.setId(userId);
+        meal.setUser(user);
+        if (!meal.isNew() && crudMealRepository.findByIdAndUserId(meal.getId(), userId) == null) {
             return null;
         }
         return crudMealRepository.save(meal);

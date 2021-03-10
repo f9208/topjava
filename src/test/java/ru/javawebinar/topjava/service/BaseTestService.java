@@ -18,16 +18,22 @@ import java.util.concurrent.TimeUnit;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
+@RunWith(SpringRunner.class)
 @ContextConfiguration({
         "classpath:spring/spring-app.xml",
         "classpath:spring/spring-db.xml"
 })
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 @ActiveProfiles(resolver = Profiles.ActiveDbProfileResolver.class)
-public class BaseServiceTest {
+public class BaseTestService {
     private static final Logger log = getLogger("result");
 
     private static final StringBuilder results = new StringBuilder();
+
+    @BeforeClass
+    public static void cleanUp() {
+        results.delete(0, results.length());
+    }
 
     @AfterClass
     public static void printResult() {
@@ -49,8 +55,4 @@ public class BaseServiceTest {
         }
     };
 
-    @BeforeClass
-    public static void cleanUp() {
-        results.delete(0, results.length());
-    }
 }
