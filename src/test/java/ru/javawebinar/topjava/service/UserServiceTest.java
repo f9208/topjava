@@ -15,7 +15,7 @@ import java.util.List;
 import static org.junit.Assert.assertThrows;
 import static ru.javawebinar.topjava.UserTestData.*;
 
-public class UserServiceTestBase extends BaseTestService {
+public abstract class UserServiceTest extends BaseServiceTest {
 
     @Autowired
     private UserService service;

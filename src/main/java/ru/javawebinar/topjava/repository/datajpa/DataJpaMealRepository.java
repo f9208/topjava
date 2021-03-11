@@ -13,20 +13,22 @@ public class DataJpaMealRepository implements MealRepository {
 
     private final CrudMealRepository crudMealRepository;
 
-    public DataJpaMealRepository(CrudMealRepository crudMealRepository,
-                                 CrudUserRepository crudUserRepository) {
+    public DataJpaMealRepository(CrudMealRepository crudMealRepository) {
         this.crudMealRepository = crudMealRepository;
     }
 
     @Override
     public Meal save(Meal meal, int userId) {
-        User user = new User();
-        user.setId(userId);
-        meal.setUser(user);
-        if (!meal.isNew() && crudMealRepository.findByIdAndUserId(meal.getId(), userId) == null) {
-            return null;
-        }
-        return crudMealRepository.save(meal);
+        if (meal.isNew()) {
+            User user = new User();
+            user.setId(userId);
+            meal.setUser(user);
+            return crudMealRepository.save(meal);
+        } else
+            return crudMealRepository.update(meal.getDateTime(),
+                    meal.getCalories(), meal.getDescription(),
+                    meal.getId(),
+                    userId) != 0 ? meal : null;
     }
 
     @Override
@@ -36,8 +38,8 @@ public class DataJpaMealRepository implements MealRepository {
 
     @Override
     public Meal get(int id, int userId) {
-        Meal meal = crudMealRepository.findById(id).orElse(null);
-        return meal != null && meal.getUser().getId() == userId ? meal : null;
+        return crudMealRepository.findById(id)
+                .filter(m -> m.getUser().getId() == userId).orElse(null);
     }
 
     @Override
