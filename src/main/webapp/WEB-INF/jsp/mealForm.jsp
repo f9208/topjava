@@ -3,28 +3,15 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <html>
-<head>
-    <title><spring:message code="meal.title"/></title>
-    <c:set var="url_base" value="/topjava/meals"/>
-    <c:set var="url_home" value="/topjava/"/>
-    <link rel="stylesheet" href="${url_home}resources/css/style.css">
-</head>
+<jsp:include page="fragments/headTag.jsp"/>
 <body>
 <jsp:include page="fragments/bodyHeader.jsp"/>
 <section>
-    <h3><a href="${url_home}"><spring:message code="app.home"/></a></h3>
     <hr>
-    <h2>
-    <c:choose>
-        <c:when test="${param.id!=null}">
-            <spring:message code="mealForm.update"/>
-        </c:when>
-        <c:otherwise>
-            <spring:message code="mealForm.create"/></c:otherwise>
-    </c:choose>
+    <h2><spring:message code="${meal.isNew() ? 'mealForm.create':'mealForm.update'}"/>
     </h2>
     <jsp:useBean id="meal" type="ru.javawebinar.topjava.model.Meal" scope="request"/>
-    <form method="post" action="${url_home}meals">
+    <form method="post" action="meals">
         <input type="hidden" name="id" value="${meal.id}">
         <dl>
             <dt><spring:message code="mealForm.dateTime"/>:</dt>

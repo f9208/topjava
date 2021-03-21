@@ -1,5 +1,8 @@
 package ru.javawebinar.topjava.service;
 
+import static org.junit.Assert.assertThrows;
+import static ru.javawebinar.topjava.util.ValidationUtil.getRootCause;
+
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.rules.ExternalResource;
@@ -13,12 +16,10 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.javawebinar.topjava.ActiveDbProfileResolver;
+import ru.javawebinar.topjava.Profiles;
 import ru.javawebinar.topjava.TimingRules;
 
 import java.util.Arrays;
-
-import static org.junit.Assert.assertThrows;
-import static ru.javawebinar.topjava.util.ValidationUtil.getRootCause;
 
 @ContextConfiguration({
         "classpath:spring/spring-app.xml",
@@ -49,8 +50,7 @@ abstract public class AbstractServiceTest {
     }
 
     protected boolean noJdbc() {
-        return !Arrays.stream(
-                environment.getActiveProfiles()).
-                anyMatch(x -> x.equals("jdbc"));
+        return Arrays.stream(environment.getActiveProfiles())
+                .noneMatch(profile -> profile.equals(Profiles.JDBC));
     }
 }

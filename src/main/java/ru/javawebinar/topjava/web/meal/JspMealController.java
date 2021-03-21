@@ -1,10 +1,12 @@
 package ru.javawebinar.topjava.web.meal;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.service.MealService;
 
@@ -21,21 +23,20 @@ import static ru.javawebinar.topjava.util.DateTimeUtil.parseLocalTime;
 
 @RequestMapping(value = "/meals")
 @Controller
-public class JspMealController extends MealRestController {
+public class JspMealController extends AbstractMealController {
 
     public JspMealController(MealService service) {
         super(service);
     }
 
     @GetMapping()
-    public String getMeals(HttpServletRequest request) {
-        request.setAttribute("meals", getAll());
+    public String getAll(Model model) {
+        model.addAttribute("meals", getAll());
         return "meals";
     }
 
     @PostMapping()
-    public String postMeals(HttpServletRequest request) throws UnsupportedEncodingException {
-        request.setCharacterEncoding("UTF-8");
+    public String post(HttpServletRequest request) {
         Meal meal = new Meal(
                 LocalDateTime.parse(request.getParameter("dateTime")),
                 request.getParameter("description"),
@@ -50,23 +51,22 @@ public class JspMealController extends MealRestController {
     }
 
     @GetMapping("/delete")
-    public String deleteMeal(HttpServletRequest request) {
-        int id = getId(request);
+    public String delete(@RequestParam(value = "id") int id, Model model) {
         delete(id);
         return "redirect:/meals";
     }
 
     @GetMapping("/create")
-    public String createMeal(HttpServletRequest request) {
+    public String create(Model model) {
         final Meal meal = new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 1000);
-        request.setAttribute("meal", meal);
+        model.addAttribute("meal", meal);
         return "mealForm";
     }
 
     @GetMapping("/update")
-    public String updateMeal(HttpServletRequest request) {
-        final Meal meal = get(getId(request));
-        request.setAttribute("meal", meal);
+    public String update(@RequestParam(value = "id") int id, Model model) {
+        final Meal meal = get(id);
+        model.addAttribute("meal", meal);
         return "mealForm";
     }
 
