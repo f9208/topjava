@@ -39,7 +39,6 @@ public class JdbcUserRepository implements UserRepository {
     @Override
     public User save(User user) {
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(user);
-
         if (user.isNew()) {
             Number newKey = insertUser.executeAndReturnKey(parameterSource);
             user.setId(newKey.intValue());
@@ -72,6 +71,11 @@ public class JdbcUserRepository implements UserRepository {
 
     @Override
     public List<User> getAll() {
-        return jdbcTemplate.query("SELECT * FROM users ORDER BY name, email", ROW_MAPPER);
+        return jdbcTemplate.query("""
+                SELECT users.*, tabl2.role as roles
+                FROM users LEFT JOIN (SELECT * FROM user_roles, users
+                WHERE user_roles.user_id = users.id) tabl2
+                ON tabl2.id = users.id""", ROW_MAPPER);
+
     }
 }
