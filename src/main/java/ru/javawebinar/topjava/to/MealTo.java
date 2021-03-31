@@ -59,4 +59,16 @@ public class MealTo {
                 ", excess=" + excess +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        MealTo mealTo = (MealTo) obj;
+        return this.calories == mealTo.getCalories()
+                && this.dateTime.equals(mealTo.getDateTime())
+                && this.getId().equals(mealTo.getId())
+                && this.getDescription().equals(mealTo.getDescription())
+                && this.excess == mealTo.excess;
+    }
 }

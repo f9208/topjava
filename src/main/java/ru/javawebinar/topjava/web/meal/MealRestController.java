@@ -19,7 +19,6 @@ import java.util.List;
 @RequestMapping(value = MealRestController.REST_MEALS_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class MealRestController extends AbstractMealController {
     static final String REST_MEALS_URL = "/rest/meals";
-    protected final Logger log = LoggerFactory.getLogger(getClass());
 
     @Override
     @GetMapping
@@ -30,13 +29,13 @@ public class MealRestController extends AbstractMealController {
     @Override
     @GetMapping("/{id}")
     public Meal get(@PathVariable int id) {
-        log.debug("GET  " + REST_MEALS_URL + "/{}", id);
+        log.debug("GET  {}/{}", REST_MEALS_URL, id);
         return super.get(id);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Meal> createWithLocation(@RequestBody Meal meal) {
-        log.debug("POST  " + REST_MEALS_URL + "/{}", meal);
+        log.debug("POST  {}/{}", REST_MEALS_URL, meal);
         Meal created = super.create(meal);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_MEALS_URL + "/{id}")
@@ -48,7 +47,7 @@ public class MealRestController extends AbstractMealController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {
-        log.debug("DELETE  " + REST_MEALS_URL + "/{}", id);
+        log.debug("DELETE  {}/{}", REST_MEALS_URL, id);
         super.delete(id);
     }
 
@@ -63,7 +62,7 @@ public class MealRestController extends AbstractMealController {
     @GetMapping(value = "/filter")
     public List<MealTo> getBetween(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
                                    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end) {
-        log.debug("GET  " + REST_MEALS_URL + "/filter?" + "{}&{}", start, end);
+        log.debug("GET  {}/filter?{}&{}", REST_MEALS_URL, start, end);
         return super.getBetween(start.toLocalDate(), start.toLocalTime(), end.toLocalDate(), end.toLocalTime());
     }
 }
