@@ -1,24 +1,17 @@
-// $(document).ready(function () {
 $(function () {
     makeEditable(
-        $("#datatable").DataTable({
+        $("#mealstable").DataTable({
             "paging": false,
             "info": true,
             "columns": [
                 {
-                    "data": "name"
+                    "data": "dateTime"
                 },
                 {
-                    "data": "email"
+                    "data": "description"
                 },
                 {
-                    "data": "roles"
-                },
-                {
-                    "data": "enabled"
-                },
-                {
-                    "data": "registered"
+                    "data": "calories"
                 },
                 {
                     "defaultContent": "Edit",
@@ -39,36 +32,36 @@ $(function () {
     );
 });
 
-function add() {
+function addMeal() {
     form.find(":input").val("");
-    $("#editRow").modal();
-}
-
-function deleteRow(id) {
-    $.ajax({
-        url: ctx.ajaxUrl + id,
-        type: "DELETE"
-    }).done(function () {
-        updateTable();
-        successNoty("Deleted");
-    });
-}
-
-function updateTable() {
-    $.get(ctx.ajaxUrl, function (data) {
-        ctx.datatableApi.clear().rows.add(data).draw();
-    });
+    $("#editMealRow").modal();
 }
 
 function save() {
     const form = $("#detailsForm");
     $.ajax({
         type: "POST",
-        url: ctx.ajaxUrl,
+        url: ctx.ajaxMealUrl+'/create',
         data: form.serialize()
     }).done(function () {
-        $("#editRow").modal("hide");
-        updateTable();
+        $("#editMealRow").modal("hide");
+        updateMealsTable();
         successNoty("Saved");
     });
+}
+
+function deleteMeal(id) {
+    $.ajax({
+        url: ctx.ajaxMealUrl + '/'+id,
+        type: "DELETE"
+    }).done(function () {
+        updateMealsTable();
+        successNoty("Deleted");
+    });
+}
+
+function updateMealsTable() {
+    $.get(ctx.ajaxMealUrl, function (data) {
+        ctx.datatableApi.clear().rows.add(data).draw();
+    })
 }

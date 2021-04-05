@@ -1,5 +1,14 @@
 let form;
 
+const userAjaxUrl = "admin/users/";
+const mealAjaxUrl = "rest/profile/meals";
+
+// https://stackoverflow.com/a/5064235/548473
+const ctx = {
+    ajaxUrl: userAjaxUrl,
+    ajaxMealUrl: mealAjaxUrl
+};
+
 function makeEditable(datatableApi) {
     ctx.datatableApi = datatableApi;
 
@@ -10,46 +19,18 @@ function makeEditable(datatableApi) {
         }
     });
 
+    $(".deleteMeal").click(function () {
+        if (confirm('Are you sure?')) {
+            deleteMeal($(this).closest('tr').attr("id"));
+        }
+    });
+
     $(document).ajaxError(function (event, jqXHR, options, jsExc) {
         failNoty(jqXHR);
     });
 
     // solve problem with cache in IE: https://stackoverflow.com/a/4303862/548473
     $.ajaxSetup({cache: false});
-}
-
-function add() {
-    form.find(":input").val("");
-    $("#editRow").modal();
-}
-
-function deleteRow(id) {
-    $.ajax({
-        url: ctx.ajaxUrl + id,
-        type: "DELETE"
-    }).done(function () {
-        updateTable();
-        successNoty("Deleted");
-    });
-}
-
-function updateTable() {
-    $.get(ctx.ajaxUrl, function (data) {
-        ctx.datatableApi.clear().rows.add(data).draw();
-    });
-}
-
-function save() {
-    const form = $("#detailsForm");
-    $.ajax({
-        type: "POST",
-        url: ctx.ajaxUrl,
-        data: form.serialize()
-    }).done(function () {
-        $("#editRow").modal("hide");
-        updateTable();
-        successNoty("Saved");
-    });
 }
 
 let failedNote;
