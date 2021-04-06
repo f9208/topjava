@@ -1,3 +1,8 @@
+// https://stackoverflow.com/a/5064235/548473
+const ctx = {
+    ajaxUrl: mealAjaxUrl
+};
+
 $(function () {
     makeEditable(
         $("#mealstable").DataTable({
@@ -25,43 +30,9 @@ $(function () {
             "order": [
                 [
                     0,
-                    "asc"
+                    "desc"
                 ]
             ]
         })
     );
 });
-
-function addMeal() {
-    form.find(":input").val("");
-    $("#editMealRow").modal();
-}
-
-function save() {
-    const form = $("#detailsForm");
-    $.ajax({
-        type: "POST",
-        url: ctx.ajaxMealUrl+'/create',
-        data: form.serialize()
-    }).done(function () {
-        $("#editMealRow").modal("hide");
-        updateMealsTable();
-        successNoty("Saved");
-    });
-}
-
-function deleteMeal(id) {
-    $.ajax({
-        url: ctx.ajaxMealUrl + '/'+id,
-        type: "DELETE"
-    }).done(function () {
-        updateMealsTable();
-        successNoty("Deleted");
-    });
-}
-
-function updateMealsTable() {
-    $.get(ctx.ajaxMealUrl, function (data) {
-        ctx.datatableApi.clear().rows.add(data).draw();
-    })
-}

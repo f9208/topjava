@@ -1,13 +1,7 @@
 let form;
 
 const userAjaxUrl = "admin/users/";
-const mealAjaxUrl = "rest/profile/meals";
-
-// https://stackoverflow.com/a/5064235/548473
-const ctx = {
-    ajaxUrl: userAjaxUrl,
-    ajaxMealUrl: mealAjaxUrl
-};
+const mealAjaxUrl = "meals/";
 
 function makeEditable(datatableApi) {
     ctx.datatableApi = datatableApi;
@@ -21,7 +15,7 @@ function makeEditable(datatableApi) {
 
     $(".deleteMeal").click(function () {
         if (confirm('Are you sure?')) {
-            deleteMeal($(this).closest('tr').attr("id"));
+            deleteRow($(this).closest('tr').attr("id"));
         }
     });
 
@@ -59,4 +53,40 @@ function failNoty(jqXHR) {
         type: "error",
         layout: "bottomRight"
     }).show();
+}
+
+function add() {
+    form.find(":input").val("");
+    $("#editMealRow").modal();
+    $("#editRow").modal();
+}
+
+function updateTable(link) {
+    $.get(link, function (data) {
+        ctx.datatableApi.clear().rows
+            .add(data).draw();
+    });
+}
+
+function save() {
+    const form = $("#detailsForm");
+    $.ajax({
+        type: "POST",
+        url: ctx.ajaxUrl + 'create',
+        data: form.serialize()
+    }).done(function () {
+        $("#editRow").modal("hide");
+        updateTable(ctx.ajaxUrl + 'all');
+        successNoty("Saved");
+    });
+}
+
+function deleteRow(id) {
+    $.ajax({
+        url: ctx.ajaxUrl + id,
+        type: "DELETE"
+    }).done(function () {
+        updateTable(ctx.ajaxUrl + 'all');
+        successNoty("Deleted");
+    });
 }

@@ -33,7 +33,7 @@
         <button type="submit"><spring:message code="meal.filter"/></button>
     </form>
     <hr>
-    <a onclick="addMeal()"><span class="fa"><spring:message code="meal.add"/><span/></a>
+    <a onclick="add()"><span class="fa"><spring:message code="meal.add"/><span/></a>
     <hr>
     <table class="table table-striped" id="mealstable">
         <thead>

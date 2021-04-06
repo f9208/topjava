@@ -1,3 +1,7 @@
+const ctx = {
+    ajaxUrl: userAjaxUrl
+};
+
 // $(document).ready(function () {
 $(function () {
     makeEditable(
@@ -38,37 +42,3 @@ $(function () {
         })
     );
 });
-
-function add() {
-    form.find(":input").val("");
-    $("#editRow").modal();
-}
-
-function deleteRow(id) {
-    $.ajax({
-        url: ctx.ajaxUrl + id,
-        type: "DELETE"
-    }).done(function () {
-        updateTable();
-        successNoty("Deleted");
-    });
-}
-
-function updateTable() {
-    $.get(ctx.ajaxUrl, function (data) {
-        ctx.datatableApi.clear().rows.add(data).draw();
-    });
-}
-
-function save() {
-    const form = $("#detailsForm");
-    $.ajax({
-        type: "POST",
-        url: ctx.ajaxUrl,
-        data: form.serialize()
-    }).done(function () {
-        $("#editRow").modal("hide");
-        updateTable();
-        successNoty("Saved");
-    });
-}
