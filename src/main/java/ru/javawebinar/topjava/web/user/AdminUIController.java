@@ -13,7 +13,7 @@ import java.util.List;
 public class AdminUIController extends AbstractUserController {
 
     @Override
-    @GetMapping(value ={ "/all",""})
+    @GetMapping()
     public List<User> getAll() {
         return super.getAll();
     }
@@ -25,7 +25,7 @@ public class AdminUIController extends AbstractUserController {
         super.delete(id);
     }
 
-    @PostMapping(value="/create")
+    @PostMapping()
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void create(@RequestParam String name,
                        @RequestParam String email,

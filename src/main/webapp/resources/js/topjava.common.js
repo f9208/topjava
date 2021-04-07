@@ -1,8 +1,4 @@
 let form;
-
-const userAjaxUrl = "admin/users/";
-const mealAjaxUrl = "meals/";
-
 function makeEditable(datatableApi) {
     ctx.datatableApi = datatableApi;
 
@@ -57,7 +53,6 @@ function failNoty(jqXHR) {
 
 function add() {
     form.find(":input").val("");
-    $("#editMealRow").modal();
     $("#editRow").modal();
 }
 
@@ -72,11 +67,11 @@ function save() {
     const form = $("#detailsForm");
     $.ajax({
         type: "POST",
-        url: ctx.ajaxUrl + 'create',
+        url: ctx.ajaxUrl,
         data: form.serialize()
     }).done(function () {
         $("#editRow").modal("hide");
-        updateTable(ctx.ajaxUrl + 'all');
+        updateTable(ctx.ajaxUrl);
         successNoty("Saved");
     });
 }
@@ -86,7 +81,7 @@ function deleteRow(id) {
         url: ctx.ajaxUrl + id,
         type: "DELETE"
     }).done(function () {
-        updateTable(ctx.ajaxUrl + 'all');
+        updateTable(ctx.ajaxUrl);
         successNoty("Deleted");
     });
 }

@@ -1,3 +1,4 @@
+const userAjaxUrl = "admin/users/";
 const ctx = {
     ajaxUrl: userAjaxUrl
 };

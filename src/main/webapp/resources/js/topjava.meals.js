@@ -1,4 +1,4 @@
-// https://stackoverflow.com/a/5064235/548473
+const mealAjaxUrl = "profile/meals/";
 const ctx = {
     ajaxUrl: mealAjaxUrl
 };
@@ -36,3 +36,8 @@ $(function () {
         })
     );
 });
+
+function filterMeal() {
+    form = $("#filterForm");
+
+}
