@@ -15,11 +15,21 @@ const ctx = {
 $(function () {
     makeEditable(
         $("#datatable").DataTable({
+            "ajax": {
+                "url": mealAjaxUrl,
+                "dataSrc": ""
+            },
             "paging": false,
             "info": true,
             "columns": [
                 {
-                    "data": "dateTime"
+                    "data": "dateTime",
+                    render: function (data, type, row) {
+                        if (type === "display") {
+                            return data.substr(0, 10) + " " + data.substr(11, 5);
+                        }
+                        return data;
+                    }
                 },
                 {
                     "data": "description"
@@ -29,11 +39,23 @@ $(function () {
                 },
                 {
                     "defaultContent": "Edit",
-                    "orderable": false
+                    "orderable": false,
+                    render: function (data, type, row) {
+                        if (type === "display") {
+                            return "<a><span class=\"fa fa-pencil\" onclick=updateRow(" + row.id + ")></span></a>"
+                        }
+                        return data;
+                    }
                 },
                 {
                     "defaultContent": "Delete",
-                    "orderable": false
+                    "orderable": false,
+                    render: function (data, type, row) {
+                        if (type === "display") {
+                            return "<a onclick=\"deleteRow(" + row.id + ")\"><span class=\"fa fa-remove\"></span></a>"
+                        }
+                        return data;
+                    }
                 }
             ],
             "order": [
@@ -41,7 +63,11 @@ $(function () {
                     0,
                     "desc"
                 ]
-            ]
+            ],
+            "createdRow": function (row, data, dataIndex) {
+                $(row).attr("data-mealExcess", data.excess);
+            }
+
         })
     );
 });
