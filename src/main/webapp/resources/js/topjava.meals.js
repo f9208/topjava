@@ -6,7 +6,7 @@ const ctx = {
     updateTable: function () {
         $.ajax({
             type: "GET",
-            url: "profile/meals/filter",
+            url: mealAjaxUrl + "filter",
             data: $("#filter").serialize()
         }).done(updateTableByData);
     }
